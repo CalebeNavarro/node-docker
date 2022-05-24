@@ -4,7 +4,7 @@ import { User } from "../../entities/user.entity";
 import { IUserCreate, IUser } from "../../interfaces/user";
 
 
-const userCreateService = async ({name, email, password}: IUserCreate): Promise<IUser> => {
+const userCreateService = async ({name, email, password, age}: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
 
@@ -17,8 +17,17 @@ const userCreateService = async ({name, email, password}: IUserCreate): Promise<
   const user = userRepository.create({
     email,
     name,
-    password
+    password,
+    age
   });
+  // const user = await AppDataSource
+  //   .createQueryBuilder()
+  //   .insert()
+  //   .into(User)
+  //   .values(
+  //       {name, email, password, age}
+  //   )
+  //   .execute()
 
   await userRepository.save(user);
 

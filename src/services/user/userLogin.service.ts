@@ -11,13 +11,14 @@ const userLoginService = async ({email, password}: IUserLogin): Promise<string> 
     .getRepository(User)
     .createQueryBuilder("user")
     .where("user.email = :email", {email})
+    .addSelect("user.password")
     .getOne()
     
-
+  
   if (!account || !bcrypt.compareSync(password, account.password)) {
     throw new Error("Wrong email/password");
   }
-
+  
   const token = jwt.sign(
     {email: email},
     process.env.JWT_SECRET as string,

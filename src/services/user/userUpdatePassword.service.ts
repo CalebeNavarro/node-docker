@@ -9,6 +9,7 @@ const userUpdatePasswordService = async ({email, password, newPassword}: IUserUp
     .select("user")
     .from(User, "user")
     .where("user.email = :email", {email})
+    .addSelect("user.password")
     .getOne()
   
   if (!user) {
@@ -27,7 +28,7 @@ const userUpdatePasswordService = async ({email, password, newPassword}: IUserUp
   await AppDataSource
     .createQueryBuilder()
     .update(User)
-    .set({password: passwordHash})
+    .set({password: passwordHash, updated_at: new Date})
     .where("email = :email", {email})
     .execute()
 
