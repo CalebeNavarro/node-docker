@@ -15,7 +15,7 @@ import { userCreateSchema, validateUserCreate } from "./../middlewares/validateU
 
 routes.patch("/users/me", authUser, userUpdatePasswordController);
 
-routes.get("/users/who", authUser, userListByTokenController);
+routes.get("/users/me", authUser, userListByTokenController);
 
 routes.post("/users/signup", validateUserCreate(userCreateSchema), userCreateController);
 
