@@ -2,6 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { IUserUpdatePassword } from "../../interfaces/user";
 import { User } from "../../entities/user.entity";
 import bcrypt from "bcrypt";
+import { AppError } from "../../errors/appError";
 
 const userUpdatePasswordService = async ({email, password, newPassword}: IUserUpdatePassword) => {
   const user = await AppDataSource
@@ -13,13 +14,13 @@ const userUpdatePasswordService = async ({email, password, newPassword}: IUserUp
     .getOne()
   
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError(404 ,"User not found");
   }
   if (!bcrypt.compareSync(password, user?.password)) {
-    throw new Error("Password doest matche");
+    throw new AppError(401 ,"Password doest matche");
   }
   if (password === newPassword) {
-    throw new Error("The password cannot be the same")
+    throw new AppError(409 ,"The password cannot be the same")
   }
 
 

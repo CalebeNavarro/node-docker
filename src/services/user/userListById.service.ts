@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
+import { AppError } from "../../errors/appError"
 import { IUser } from "../../interfaces/user"
 
 const userListByIdService = async (user_id: string): Promise<IUser> =>  {
@@ -10,7 +11,7 @@ const userListByIdService = async (user_id: string): Promise<IUser> =>  {
     .getOne()
 
   if (!user) {
-    throw new Error("User not found");
+    throw new AppError(404, "User not found");
   }
   return user
 }

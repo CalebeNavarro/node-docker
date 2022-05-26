@@ -7,11 +7,10 @@ export interface IUser {
   updated_at: Date
 }
 
-export interface IUserCreate{
+export interface IUserCreate extends IUserLogin{
   name: string;
   age: number
-  email: string;
-  password: string
+
 }
 
 export interface IUserLogin {

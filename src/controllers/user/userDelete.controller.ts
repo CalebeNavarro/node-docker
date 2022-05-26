@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 
 import userDeleteService from "../../services/user/userDelete.service";
 
@@ -13,12 +14,10 @@ const userDeleteController = async (req: Request, res: Response) => {
 
   } catch (err) {
 
-    if(err instanceof Error){
-      return res.status(404).send({
-        "error": err.name,
-        "message": err.message
-      })
+    if (err instanceof AppError) {
+      handleError(err, res);
     }
+    
   }
 }
 

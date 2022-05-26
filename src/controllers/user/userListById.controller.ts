@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { AppError, handleError } from "../../errors/appError";
 import userListByIdService from "../../services/user/userListById.service";
 
 const userListById = async (req: Request, res: Response) => {
@@ -10,14 +11,11 @@ const userListById = async (req: Request, res: Response) => {
 
   } catch (err) {
 
-    if (err instanceof Error){
-      res.status(404).send({
-        "error": err.name,
-        "message": err.message,
-      })
+    if (err instanceof AppError) {
+      handleError(err, res);
     }
-  }
 
+  }
 }
 
 export default userListById;

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 import userListByTokenService from "../../services/user/userListByToken.service";
 
 const userListByTokenController = async (req: Request, res: Response) => {
@@ -10,12 +11,11 @@ const userListByTokenController = async (req: Request, res: Response) => {
     return res.status(200).send(user);
 
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(400).send({
-        "error": err.name,
-        "message": err.message,
-      })
+
+    if (err instanceof AppError) {
+      handleError(err, res);
     }
+    
   }
 }
 

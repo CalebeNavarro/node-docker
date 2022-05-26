@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../data-source"
 import { User } from "../../entities/user.entity"
+import { AppError } from "../../errors/appError";
 import { IUser } from "../../interfaces/user";
 
 
@@ -11,7 +12,7 @@ const userListByTokenService = async (email: string) => {
     .getOne()
   
   if (!user) {
-    throw new Error("User not found")
+    throw new AppError(404, "User not found")
   }
 
   return user;

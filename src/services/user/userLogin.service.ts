@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/user.entity";
+import { AppError } from "../../errors/appError";
 import { IUserLogin } from "./../../interfaces/user";
 
 
@@ -16,7 +17,7 @@ const userLoginService = async ({email, password}: IUserLogin): Promise<string> 
     
   
   if (!account || !bcrypt.compareSync(password, account.password)) {
-    throw new Error("Wrong email/password");
+    throw new AppError(401, "Wrong email/password");
   }
   
   const token = jwt.sign(

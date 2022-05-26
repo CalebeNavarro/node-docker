@@ -1,7 +1,8 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/user.entity";
+import { AppError } from "../../errors/appError";
 
-import { IUserCreate, IUser } from "../../interfaces/user";
+import { IUserCreate } from "../../interfaces/user";
 
 
 const userCreateService = async ({name, email, password, age}: IUserCreate) => {
@@ -11,7 +12,7 @@ const userCreateService = async ({name, email, password, age}: IUserCreate) => {
   const isEmailAlreadyExist = users.find((person: any) => person.email === email);
 
   if (isEmailAlreadyExist) {
-    throw new Error("Email already exist");
+    throw new AppError(409 ,"Email already exist");
   }
 
   const user = userRepository.create({
@@ -20,14 +21,6 @@ const userCreateService = async ({name, email, password, age}: IUserCreate) => {
     password,
     age
   });
-  // const user = await AppDataSource
-  //   .createQueryBuilder()
-  //   .insert()
-  //   .into(User)
-  //   .values(
-  //       {name, email, password, age}
-  //   )
-  //   .execute()
 
   await userRepository.save(user);
 
